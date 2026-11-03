@@ -1,0 +1,460 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --app-primary: #1b5e3a;
+  --app-primary-deep: #153e2a;
+  --app-primary-soft: #e6efeb;
+  --app-accent: #f5a623;
+  --app-canvas: #f4f7f5;
+  --app-line: #dfe8e2;
+  --app-muted: #68776e;
+}
+
+@layer base {
+  body {
+    @apply text-gray-900 font-sans;
+    background-color: var(--app-canvas);
+  }
+
+  h1 {
+    @apply font-sans font-bold text-page-title text-gray-900;
+  }
+
+  h2 {
+    @apply font-sans font-semibold text-section-title text-gray-900;
+  }
+
+  .page-title {
+    @apply font-sans font-bold text-page-title text-gray-900;
+  }
+
+  .section-title {
+    @apply font-sans font-semibold text-section-title text-gray-900;
+  }
+}
+
+@layer components {
+  /* Classroom-first attendance workspace */
+  .attendance-page {
+    --attendance-green: var(--app-primary);
+    --attendance-gold: var(--app-accent);
+    --attendance-line: var(--app-line);
+    color: #20352a;
+  }
+
+  .attendance-hero {
+    @apply flex flex-col justify-between gap-5 rounded-3xl p-6 text-white shadow-sm md:flex-row md:items-end md:px-8 md:py-7;
+    background: linear-gradient(118deg, var(--app-primary-deep), var(--app-primary) 70%, #2f7652);
+  }
+
+  .attendance-hero h1 { @apply mt-2 text-3xl font-bold tracking-tight text-white md:text-4xl; }
+  .attendance-hero p { @apply mt-2 max-w-2xl text-sm text-white/75; }
+
+  .attendance-eyebrow { @apply inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.14em] text-white/75; }
+  .attendance-eyebrow--green { color: var(--app-primary); }
+
+  .attendance-date-control { @apply flex min-w-[12rem] flex-col gap-1.5 text-xs font-semibold text-white/75; }
+  .attendance-date-control__input { @apply flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-3 py-2.5 text-sm text-white; }
+  .attendance-date-control input { @apply min-w-0 bg-transparent text-sm text-white outline-none; }
+  .attendance-date-control input::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
+
+  .attendance-classrooms, .attendance-roster-panel { @apply rounded-2xl border bg-white shadow-sm; border-color: var(--attendance-line); }
+  .attendance-classrooms { @apply p-5 md:p-6; }
+  .attendance-section-heading { @apply mb-4 flex items-center justify-between gap-3; }
+  .attendance-section-heading h2, .attendance-roster-heading h2 { @apply text-lg font-bold text-slate-900; }
+  .attendance-section-heading p, .attendance-roster-heading p { @apply mt-1 text-sm text-slate-500; }
+  .attendance-section-heading > span { @apply rounded-full px-3 py-1 text-xs font-semibold; background: var(--app-primary-soft); color: var(--app-primary); }
+
+  .attendance-room-grid { @apply grid gap-3 sm:grid-cols-2 xl:grid-cols-3; }
+  .attendance-room { @apply relative flex min-h-[82px] items-center gap-3 rounded-xl border p-3.5 text-left transition; border-color: var(--attendance-line); }
+  .attendance-room:hover { @apply border-primary-300 bg-primary-50/60; }
+  .attendance-room--active { border-color: var(--app-primary); background: var(--app-primary-soft); box-shadow: inset 0 0 0 1px var(--app-primary); }
+  .attendance-room__icon { @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-xl; background: white; color: var(--app-primary); }
+  .attendance-room__content { @apply flex min-w-0 flex-col gap-1; }
+  .attendance-room__content strong { @apply truncate text-sm font-bold text-slate-800; }
+  .attendance-room__content small { @apply truncate text-xs text-slate-500; }
+  .attendance-room__check { @apply ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-white; background: var(--app-primary); }
+
+  .attendance-roster-panel { @apply overflow-hidden; }
+  .attendance-roster-heading { @apply flex flex-wrap items-center justify-between gap-4 border-b px-5 py-5 md:px-6; border-color: var(--attendance-line); }
+  .attendance-refresh { @apply inline-flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50 disabled:opacity-50; border-color: var(--attendance-line); }
+  .attendance-stats-grid { @apply grid grid-cols-2 gap-3 border-b p-4 md:grid-cols-4 md:px-6; border-color: var(--attendance-line); background: #fbfcfb; }
+  .attendance-stat { @apply flex items-center justify-between rounded-xl border bg-white px-4 py-3; border-color: var(--attendance-line); }
+  .attendance-stat__label { @apply text-xs font-medium text-slate-500; }
+  .attendance-stat__value { @apply mt-1 text-xl font-bold text-slate-900; }
+  .attendance-stat__icon { @apply flex h-9 w-9 items-center justify-center rounded-xl; }
+  .attendance-stat__icon--neutral { background: var(--app-primary-soft); color: var(--app-primary); }
+  .attendance-stat__icon--present { @apply bg-emerald-50 text-emerald-600; }
+  .attendance-stat__icon--absent { @apply bg-rose-50 text-rose-600; }
+  .attendance-stat__icon--pending { @apply bg-amber-50 text-amber-600; }
+
+  .attendance-roster-tools { @apply flex flex-wrap items-center gap-3 border-b p-4 md:px-6; border-color: var(--attendance-line); }
+  .attendance-search { @apply flex min-w-[220px] flex-1 items-center gap-2 rounded-xl border bg-white px-3 py-2.5 text-slate-400; border-color: var(--attendance-line); }
+  .attendance-search:focus-within { @apply border-primary-400 ring-4 ring-primary-500/10; }
+  .attendance-search input { @apply w-full bg-transparent text-sm text-slate-800 outline-none placeholder:text-slate-400; }
+  .attendance-roster-tools select { @apply rounded-xl border bg-white px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-primary-400 focus:ring-4 focus:ring-primary-500/10; border-color: var(--attendance-line); }
+  .attendance-roster-count { @apply ml-auto text-xs font-medium text-slate-400; }
+
+  .attendance-list { @apply divide-y; border-color: var(--attendance-line); }
+  .attendance-child-row { @apply grid items-center gap-x-4 gap-y-3 px-4 py-4 transition hover:bg-primary-50/30 md:grid-cols-[112px_minmax(190px,1.25fr)_minmax(130px,0.9fr)_minmax(170px,0.9fr)_72px] md:px-6; }
+  .attendance-child-row__action { @apply order-1; }
+  .attendance-row-action { @apply inline-flex min-w-[94px] items-center justify-center gap-1.5 rounded-lg px-3 py-2 text-xs font-bold text-white shadow-sm transition hover:-translate-y-px disabled:cursor-not-allowed disabled:opacity-40; background: var(--app-primary); }
+  .attendance-row-action:hover { background: var(--app-primary-deep); }
+  .attendance-row-action--checkout { background: var(--app-accent); color: var(--app-primary-deep); }
+  .attendance-row-action--checkout:hover { background: #e89a18; }
+  .attendance-row-action--quiet { @apply border bg-white text-slate-600 shadow-none hover:bg-slate-50; border-color: var(--attendance-line); }
+  .attendance-child-row__main { @apply order-2 flex min-w-0 items-center gap-3; }
+  .attendance-child-avatar { @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-xs font-bold; background: var(--app-primary-soft); color: var(--app-primary); }
+  .attendance-child-name { @apply flex min-w-0 flex-col gap-1; }
+  .attendance-child-name strong { @apply truncate text-sm font-bold text-slate-800; }
+  .attendance-child-name span { @apply truncate text-xs text-slate-400; }
+  .attendance-child-row__status { @apply order-3 flex flex-col items-start gap-1.5; }
+  .attendance-status { @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold; }
+  .attendance-status i, .attendance-live-count span { @apply h-1.5 w-1.5 rounded-full; }
+  .attendance-status--present { @apply bg-emerald-50 text-emerald-700; }
+  .attendance-status--present i { @apply bg-emerald-500; }
+  .attendance-status--late { @apply bg-amber-50 text-amber-700; }
+  .attendance-status--late i { @apply bg-amber-500; }
+  .attendance-status--absent { @apply bg-rose-50 text-rose-700; }
+  .attendance-status--absent i { @apply bg-rose-500; }
+  .attendance-status--checkout { @apply bg-primary-50 text-primary-700; }
+  .attendance-status--checkout i { @apply bg-primary-500; }
+  .attendance-status--pending { @apply bg-slate-100 text-slate-500; }
+  .attendance-status--pending i { @apply bg-slate-400; }
+  .attendance-child-row__status small { @apply text-[11px] text-slate-400; }
+  .attendance-child-row__times { @apply order-4 flex gap-3 text-xs text-slate-500; }
+  .attendance-child-row__times span { @apply inline-flex items-center gap-1.5; }
+  .attendance-history-link { @apply order-5 hidden items-center justify-end gap-1 text-xs font-semibold text-primary-700 hover:text-primary-900 md:inline-flex; }
+
+  .attendance-loading, .attendance-empty { @apply flex items-center justify-center gap-2 rounded-xl border border-dashed p-8 text-sm text-slate-500; border-color: var(--attendance-line); }
+  .attendance-loading--body { @apply min-h-48; }
+  .attendance-empty { @apply min-h-52 flex-col text-center; }
+  .attendance-empty > svg { color: var(--app-primary); }
+  .attendance-empty strong { @apply font-bold text-slate-700; }
+  .attendance-empty span { @apply text-xs text-slate-400; }
+  .attendance-empty--compact { @apply min-h-20 p-5; }
+  .attendance-error { @apply m-4 flex items-center gap-2 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700 md:mx-6; }
+  .attendance-history-note { @apply border-t bg-amber-50 px-5 py-3 text-xs text-amber-800; border-color: var(--attendance-line); }
+  .attendance-live-count { @apply inline-flex items-center gap-2 border-t px-5 py-3 text-xs font-medium text-slate-500; border-color: var(--attendance-line); }
+  .attendance-live-count span { @apply bg-emerald-500; }
+
+  /* Primary Actions */
+  .btn-primary {
+    @apply px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors text-button;
+  }
+
+  .btn-primary-lg {
+    @apply px-6 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors text-button text-base;
+  }
+
+  .btn-primary-sm {
+    @apply px-3 py-1.5 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors text-button text-sm;
+  }
+
+  /* Accent Actions */
+  .btn-accent {
+    @apply px-4 py-2 bg-accent-500 text-white rounded-lg hover:bg-accent-600 transition-colors text-button;
+  }
+
+  .btn-accent-lg {
+    @apply px-6 py-3 bg-accent-500 text-white rounded-lg hover:bg-accent-600 transition-colors text-button text-base;
+  }
+
+  /* Secondary Actions */
+  .btn-secondary {
+    @apply px-4 py-2 bg-gray-200 text-gray-900 rounded-lg hover:bg-gray-300 transition-colors text-button;
+  }
+
+  .btn-secondary-lg {
+    @apply px-6 py-3 bg-gray-200 text-gray-900 rounded-lg hover:bg-gray-300 transition-colors text-button text-base;
+  }
+
+  /* Danger Actions */
+  .btn-danger {
+    @apply px-4 py-2 bg-danger-500 text-white rounded-lg hover:bg-danger-600 transition-colors text-button;
+  }
+
+  /* Cards */
+  .card {
+    @apply bg-white rounded-lg shadow-sm border border-gray-200;
+  }
+
+  .card-primary {
+    @apply bg-white rounded-lg shadow-sm border border-primary-200;
+  }
+
+  .card-header {
+    @apply px-6 py-4 border-b border-gray-200 bg-gray-50;
+  }
+
+  .card-body {
+    @apply p-6;
+  }
+
+  .card-footer {
+    @apply px-6 py-4 border-t border-gray-200 bg-gray-50;
+  }
+
+  /* Badges */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-primary {
+    @apply badge bg-primary-100 text-primary-800;
+  }
+
+  .badge-accent {
+    @apply badge bg-accent-100 text-accent-800;
+  }
+
+  .badge-success {
+    @apply badge bg-success-100 text-success-700;
+  }
+
+  .badge-warning {
+    @apply badge bg-warning-100 text-warning-700;
+  }
+
+  .badge-danger {
+    @apply badge bg-danger-100 text-danger-700;
+  }
+
+  /* Nav Active State */
+  .nav-active {
+    @apply bg-primary-50 text-primary-700 font-semibold shadow-xs border-l-4 border-primary-500;
+  }
+
+  .nav-inactive {
+    @apply text-gray-600 hover:bg-gray-100/80 hover:text-gray-900 font-medium;
+  }
+
+  /* Stat Card */
+  .stat-card {
+    @apply bg-white rounded-lg border border-gray-200 p-6;
+  }
+
+  .stat-card-primary {
+    @apply stat-card border-l-4 border-l-primary-500;
+  }
+
+  .stat-card-accent {
+    @apply stat-card border-l-4 border-l-accent-500;
+  }
+
+  /* Sidebar Section */
+  .sidebar-section-header {
+    @apply px-3 py-2 text-xs font-semibold uppercase tracking-wider text-gray-500;
+  }
+
+  .sidebar-item {
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all cursor-pointer;
+  }
+
+  /* Table Styling */
+  .table-header {
+    @apply text-table-header text-gray-700 font-semibold uppercase tracking-wide;
+  }
+
+  /* Responsive sign-in layout */
+  .brand-gradient-canvas {
+    background-color: #f5f7f3;
+    background-image:
+      radial-gradient(ellipse at 14% 18%, rgb(220 236 222 / 70%), transparent 30rem),
+      radial-gradient(ellipse at 90% 90%, rgb(255 231 190 / 55%), transparent 25rem);
+  }
+
+  .login-page {
+    @apply relative isolate flex w-full flex-col items-center justify-center px-6 py-8;
+    box-sizing: border-box;
+    min-height: 100vh;
+    min-height: 100dvh;
+    gap: 18px;
+    overflow-x: clip;
+  }
+
+  .login-page::before,
+  .login-page::after {
+    @apply pointer-events-none absolute rounded-full;
+    content: '';
+    z-index: 0;
+  }
+
+  .login-page::before {
+    top: -18rem;
+    left: -15rem;
+    width: min(56vw, 38rem);
+    aspect-ratio: 1;
+    border: 1px solid rgb(27 94 58 / 10%);
+    box-shadow:
+      0 0 0 2rem rgb(27 94 58 / 3%),
+      0 0 0 5rem rgb(27 94 58 / 2%);
+  }
+
+  .login-page::after {
+    right: -12rem;
+    bottom: -15rem;
+    width: min(46vw, 31rem);
+    aspect-ratio: 1;
+    background: rgb(245 166 35 / 8%);
+    box-shadow: 0 0 0 2.5rem rgb(245 166 35 / 4%);
+  }
+
+  .login-shell {
+    @apply relative z-10 grid w-full overflow-hidden bg-white;
+    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1fr);
+    max-width: 1080px;
+    min-height: 620px;
+    border: 1px solid rgb(255 255 255 / 80%);
+    border-radius: 32px;
+    box-shadow: 0 28px 80px rgb(28 54 38 / 12%), 0 4px 14px rgb(28 54 38 / 5%);
+  }
+
+  .login-visual {
+    @apply relative isolate flex flex-col justify-between overflow-hidden text-white;
+    min-height: 620px;
+    padding: clamp(28px, 4vw, 48px);
+    background-image:
+      linear-gradient(180deg, rgb(14 45 29 / 30%) 0%, rgb(14 45 29 / 46%) 42%, rgb(14 45 29 / 94%) 100%),
+      url('/login%20background.jpg');
+    background-position: center;
+    background-size: cover;
+  }
+
+  .login-visual::after {
+    @apply pointer-events-none absolute;
+    content: '';
+    z-index: -1;
+    top: 28%;
+    right: -7rem;
+    width: 17rem;
+    aspect-ratio: 1;
+    border: 1px solid rgb(255 255 255 / 24%);
+    border-radius: 50%;
+    box-shadow: 0 0 0 1.5rem rgb(255 255 255 / 7%), 0 0 0 3.5rem rgb(255 255 255 / 5%);
+  }
+
+  .login-visual__top { @apply flex flex-col items-start gap-7; }
+  .login-visual__logo { @apply inline-flex items-center rounded-2xl bg-white px-4 py-2.5 shadow-lg; }
+  .login-visual__logo img { display: block; width: 174px; max-height: 60px; object-fit: contain; }
+  .login-visual__badge {
+    @apply inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/15 px-3.5 py-2 text-xs font-semibold tracking-wide text-white backdrop-blur-sm;
+  }
+  .login-visual__badge svg { color: #ffd36e; }
+  .login-visual__copy { @apply relative z-10 max-w-sm; }
+  .login-visual__eyebrow { @apply mb-4 text-[11px] font-bold tracking-[0.2em] text-white/75; }
+  .login-visual__copy h2 { @apply text-4xl font-bold leading-[1.08] tracking-tight text-white md:text-5xl; }
+  .login-visual__copy > p:last-child { @apply mt-4 max-w-xs text-base leading-7 text-white/80; }
+  .login-visual__footnote { @apply relative z-10 text-xs font-medium tracking-wide text-white/70; }
+
+  .login-card {
+    @apply flex items-center justify-center;
+    min-width: 0;
+    padding: clamp(30px, 5vw, 64px);
+  }
+
+  .login-form-panel {
+    @apply w-full;
+    max-width: 390px;
+  }
+
+  .login-form-heading { @apply mb-9; }
+  .login-form-heading__badge {
+    @apply mb-6 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold;
+    background: #edf4ee;
+    color: var(--app-primary);
+  }
+  .login-form-heading__badge svg { color: #d69219; }
+  .login-form-heading h1 { @apply text-4xl font-bold tracking-tight text-slate-900; }
+  .login-form-heading p { @apply mt-2 text-sm leading-6 text-slate-500; }
+
+  .login-form { @apply space-y-5; }
+  .login-form label { @apply mb-2 block text-sm font-semibold text-slate-700; }
+
+  .login-error {
+    @apply mb-5 flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm leading-5 text-red-700;
+  }
+
+  .login-field {
+    @apply flex min-h-14 w-full items-center gap-3 rounded-xl border bg-slate-50 px-4 transition;
+    box-sizing: border-box;
+    border-color: #e4eae5;
+  }
+
+  .login-field:focus-within {
+    border-color: var(--app-primary);
+    background: white;
+    box-shadow: 0 0 0 4px rgb(27 94 58 / 10%);
+  }
+
+  .login-field > svg { @apply shrink-0; color: #849188; }
+  .login-field input {
+    @apply min-w-0 flex-1 border-0 bg-transparent py-3 text-base text-slate-900 outline-none placeholder:text-slate-400;
+  }
+
+  .login-field__toggle {
+    @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-slate-400 transition hover:bg-slate-200/70 hover:text-slate-700 focus:outline-none focus:ring-2;
+    --tw-ring-color: rgb(27 94 58 / 30%);
+  }
+
+  .login-submit {
+    @apply mt-2 inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-xl px-4 text-sm font-bold text-white transition focus:outline-none focus:ring-4 disabled:cursor-wait disabled:opacity-70;
+    box-sizing: border-box;
+    background: linear-gradient(110deg, #1b5e3a, #26744a);
+    box-shadow: 0 10px 20px rgb(27 94 58 / 18%);
+    --tw-ring-color: rgb(27 94 58 / 20%);
+  }
+
+  .login-submit:hover { background: linear-gradient(110deg, #164a2e, #1b5e3a); }
+  .login-submit svg:last-child { transition: transform 160ms ease; }
+  .login-submit:hover svg:last-child { transform: translateX(3px); }
+
+  .login-security-note { @apply mt-7 flex w-full items-start gap-3 border-t border-slate-100 pt-5; box-sizing: border-box; }
+  .login-security-note svg { @apply mt-0.5 shrink-0; color: var(--app-primary); }
+  .login-security-note p { @apply text-xs leading-5 text-slate-500; }
+  .login-page__footer { @apply relative z-10 text-center text-xs leading-5 text-slate-500; }
+
+  @media (max-width: 760px) {
+    .login-page { justify-content: flex-start; padding: 20px 14px; gap: 14px; }
+    .login-shell { max-width: 480px; grid-template-columns: minmax(0, 1fr); border-radius: 26px; }
+    .login-visual { min-height: 230px; padding: 22px 24px; background-position: center 45%; }
+    .login-visual__top { flex-direction: row; align-items: center; justify-content: space-between; gap: 12px; }
+    .login-visual__logo { padding: 7px 10px; border-radius: 12px; }
+    .login-visual__logo img { width: 124px; max-height: 42px; }
+    .login-visual__badge { padding: 7px 10px; font-size: 10px; }
+    .login-visual__copy { margin-top: 24px; }
+    .login-visual__eyebrow { margin-bottom: 8px; font-size: 9px; }
+    .login-visual__copy h2 { font-size: 30px; }
+    .login-visual__copy > p:last-child { display: none; }
+    .login-visual__footnote { display: none; }
+    .login-card { padding: 30px clamp(22px, 7vw, 42px) 26px; }
+    .login-form-panel { max-width: none; }
+    .login-form-heading { margin-bottom: 26px; }
+    .login-form-heading__badge { margin-bottom: 16px; }
+    .login-form-heading h1 { font-size: 32px; }
+  }
+
+  @media (max-width: 380px) {
+    .login-page { padding: 12px 10px; }
+    .login-visual { min-height: 205px; padding: 18px; }
+    .login-visual__badge { max-width: 150px; font-size: 9px; }
+    .login-card { padding: 24px 18px 20px; }
+    .login-form-heading h1 { font-size: 29px; }
+  }
+
+  @media (max-height: 760px) and (min-width: 761px) {
+    .login-page { padding-block: 20px; }
+    .login-shell, .login-visual { min-height: 560px; }
+    .login-card { padding-block: 40px; }
+  }
+
+  @media (max-height: 700px) {
+    .login-page { padding-block: 16px; gap: 24px; }
+    .login-banner { height: auto; min-height: 220px; }
+    .login-card { padding-block: 28px; }
+  }
+}

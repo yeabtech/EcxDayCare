@@ -1,0 +1,49 @@
+@ECX_Daycare_HostAddress = http://localhost:5192
+
+GET {{ECX_Daycare_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+@parentToken = YOUR_PARENT_ACCESS_TOKEN
+@dailyReportId = DAILY_REPORT_GUID
+@incidentId = INCIDENT_GUID
+
+### Get the signed-in parent's profile
+GET {{ECX_Daycare_HostAddress}}/api/auth/me/parent-profile
+Authorization: Bearer {{parentToken}}
+Accept: application/json
+
+### Update the signed-in parent's profile and login email
+PUT {{ECX_Daycare_HostAddress}}/api/auth/me/parent-profile
+Authorization: Bearer {{parentToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "firstName": "Taylor",
+  "lastName": "Parent",
+  "email": "parent@example.com",
+  "phoneNumber": "+1 555 123 4567",
+  "address": "123 Family Street"
+}
+
+### Get notifications for the signed-in parent
+GET {{ECX_Daycare_HostAddress}}/api/parent-portal/notifications
+Authorization: Bearer {{parentToken}}
+Accept: application/json
+
+### Get incident reports shared with the signed-in parent
+GET {{ECX_Daycare_HostAddress}}/api/parent-portal/incident-notifications
+Authorization: Bearer {{parentToken}}
+Accept: application/json
+
+### Mark an incident report as reviewed
+POST {{ECX_Daycare_HostAddress}}/api/parent-portal/incidents/{{incidentId}}/read
+Authorization: Bearer {{parentToken}}
+Accept: application/json
+
+### Mark a daily-report notification as read when opening the report
+POST {{ECX_Daycare_HostAddress}}/api/parent-portal/reports/{{dailyReportId}}/read
+Authorization: Bearer {{parentToken}}
+Accept: application/json

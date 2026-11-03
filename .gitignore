@@ -1,0 +1,26 @@
+**/.env
+**/.env.*
+!**/.env.example
+
+# Local editor state and build artifacts
+.vs/
+.vscode/
+**/bin/
+**/obj/
+**/node_modules/
+**/dist/
+**/.visual-checks/
+buildcheck-parent/
+ECX_Daycare/wwwroot/children/
+ECX_Daycare.Frontend/login-1440.png
+
+# Machine-specific configuration and generated files
+**/appsettings.Development.json
+**/*.csproj.user
+**/*.suo
+**/*.tsbuildinfo
+**/vite-dev.log
+**/tsc-raw.txt
+uploadthing-7.7.4.tgz
+qa-edit.mjs
+repro-status.mjs

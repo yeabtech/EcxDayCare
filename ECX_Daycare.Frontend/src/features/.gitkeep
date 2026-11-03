@@ -1,0 +1,20 @@
+/**
+ * Features directory - placeholder for feature-specific logic
+ * 
+ * Structure for future features:
+ * features/
+ * ├── children/
+ * │   ├── components/
+ * │   ├── pages/
+ * │   ├── services/
+ * │   └── hooks/
+ * ├── staff/
+ * ├── attendance/
+ * ├── schedule/
+ * └── reports/
+ */
+
+export const FEATURES_README = `
+This directory contains feature-specific implementations grouped by business domain.
+Each feature should have its own isolated structure with components, services, and hooks.
+`

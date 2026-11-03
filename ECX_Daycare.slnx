@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="Daycare.Application/Daycare.Application.csproj" />
+  <Project Path="Daycare.Domain.Tests/Daycare.Domain.Tests.csproj" />
+  <Project Path="Daycare.Domain/Daycare.Domain.csproj" />
+  <Project Path="Daycare.Infrastructure/Daycare.Infrastructure.csproj" />
+  <Project Path="ECX_Daycare/ECX_Daycare.csproj" />
+</Solution>
